@@ -1,0 +1,8 @@
+{
+  "/api": { // Forward requests starting with '/api' to the backend
+    "target": "http://localhost:8082",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug" 
+  }
+}

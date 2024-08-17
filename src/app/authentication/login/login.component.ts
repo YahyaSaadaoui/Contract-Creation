@@ -1,18 +1,21 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import   
- { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common'; 
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule, CommonModule ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  loginError: string | null = null; // To store and display login error messages
 
   constructor(
     private formBuilder: FormBuilder,
@@ -20,8 +23,7 @@ export class LoginComponent {
     private router: Router
   ) {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],   
-
+      username: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
@@ -31,15 +33,20 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value)
         .subscribe({
           next: (response) => {
-            // Store the JWT token (you might want to use local storage or a state management solution)
-            localStorage.setItem('token', response.token);
-
-            // Navigate to the dashboard
-            this.router.navigate(['/dashboard']); 
+            if (response && response.token) {
+              // Store the token in localStorage
+              localStorage.setItem('token', response.token);
+              this.authService.setToken(response.token);
+              this.authService.isLoggedIn();
+              this.authService.isLoggedInSubject.next(true);
+              this.router.navigate(['/dashboard']); 
+            } else {
+              this.loginError = 'Invalid credentials'; // Set an error message
+            }
           },
           error: (error) => {
-            // Handle login errors (e.g., display an error message)
             console.error('Login failed:', error);
+            this.loginError = 'An error occurred during login. Please try again later.'; // Set a generic error message
           }
         });
     }
