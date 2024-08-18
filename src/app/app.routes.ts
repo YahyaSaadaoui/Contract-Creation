@@ -4,24 +4,36 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './authentication/register/register.component';
 import { AuthGuard } from './authentication/auth.guard.service';
-import { DashboardComponent } from './admin/dashboard/dashboard.component';
-
+import { RoleGuard } from './authentication/auth.role-guard.service';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, 
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   {
-    path:   
- 'admin', 
-    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-    canActivate: [AuthGuard] 
+    path: '',
+    redirectTo: '/dashboard', // Redirect to dashboard if authenticated
+    pathMatch: 'full'
   },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [AuthGuard],
+    data: { authRequired: false }
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [AuthGuard],
+    data: { authRequired: false }
+  },
+  {
+    path: 'dashboard', // Dashboard is now a top-level route
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+    canActivate: [AuthGuard]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }export { routes };
+export class AppRoutingModule { }
+export { routes };

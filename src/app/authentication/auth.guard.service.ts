@@ -1,31 +1,32 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Inject } from '@angular/core';
-import { AuthService } from './login/auth.service';
-import { Observable } from 'rxjs';
-import { switchMap, first } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { AuthService } from './auth.service';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
 
- constructor(private authService: AuthService, private router: Router) {}
+  constructor(@Inject(AuthService) private authService: AuthService, private router: Router) {}
 
-canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree   
- {
-    // Wait for initialization to complete before checking login status
-    return this.authService.isInitializing$.pipe(
-      first(isInitializing => !isInitializing), // Wait until isInitializing is false
-      switchMap(() => {
-        if (this.authService.isLoggedIn()) {
-          return of(true);
-        } else {
-          this.router.navigate(['/login']);
-          return of(false);
-        }
-      })
-    );
+  canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    // Check if isLoggedInSubject has been updated
+    if (this.authService.isLoggedInSubject.value) {
+      return true; // User is logged in, allow access
+    } else {
+      // Check localStorage and update isLoggedInSubject if necessary
+      const token = localStorage.getItem('token');
+      if (token && !this.authService.jwtHelper.isTokenExpired(token)) {
+        this.authService.setToken(token);
+        this.authService.isLoggedInSubject.next(true);
+        return true; // Token is valid, allow access
+      } else {
+        this.router.navigate(['/login']);
+        return false;
+      }
+    }
   }
 }

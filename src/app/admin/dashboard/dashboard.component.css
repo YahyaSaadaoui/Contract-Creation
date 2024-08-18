@@ -1,0 +1,4 @@
+/* dashboard.component.css */
+nav a { /* Target anchor tags within the nav */
+  pointer-events: auto !important;
+}

@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from './auth.service';
-import { HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common'; 
+import { AuthService } from '../auth.service';
+import { HttpClient } from '@angular/common/http';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule ],
+  imports: [ReactiveFormsModule, CommonModule, NgOptimizedImage],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  providers: [HttpClient]
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -39,7 +40,7 @@ export class LoginComponent {
               this.authService.setToken(response.token);
               this.authService.isLoggedIn();
               this.authService.isLoggedInSubject.next(true);
-              this.router.navigate(['/dashboard']); 
+              this.router.navigate(['/dashboard']);
             } else {
               this.loginError = 'Invalid credentials'; // Set an error message
             }
