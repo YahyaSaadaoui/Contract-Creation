@@ -31,85 +31,131 @@ import { AuthGuard } from '../authentication/auth.guard.service';
 import { RoleGuard } from '../authentication/auth.role-guard.service';
 
 const routes: Routes = [
-  { 
-    path: '', 
-    component: DashboardComponent, 
-    canActivate: [AuthGuard] 
+  {
+    path: '',
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'merchant-management', 
-    component: MerchantManagementComponent, 
-    canActivate: [AuthGuard, RoleGuard], 
-    data: { roles: ['admin', 'adminSystem'] }, 
+  {
+    path: 'merchant-management',
+    component: MerchantManagementComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['ROLE_admin', 'ROLE_adminSystem', 'ROLE_casual', 'ROLE_special'] },
     children: [
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
-      { path: 'list', component: MerchantListComponent },
-      { path: 'add', component: AddMerchantComponent },
-      { path: 'modify/:id', component: ModifyMerchantComponent } // Assuming you'll pass the merchant ID in the URL
+      { path: '',
+        redirectTo: 'list',
+        pathMatch: 'full'
+
+      },
+      { path: 'list',
+        component: MerchantListComponent
+        ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem', 'ROLE_casual', 'ROLE_special'] }
+        ,canActivate: [AuthGuard, RoleGuard]
+      }
+      ,
+      { path: 'add',
+        component: AddMerchantComponent
+        ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem'] }
+        ,canActivate: [AuthGuard, RoleGuard]
+      },
+      { path: 'modify/:id',
+        component: ModifyMerchantComponent
+        ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem'] }
+        ,canActivate: [AuthGuard, RoleGuard]
+      }
     ]
   },
-  { 
-    path: 'contract-creation', 
+  {
+    path: 'contract-creation',
     component: ContractCreationComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: { roles: ['admin', 'adminSystem', 'casual'] }, 
+    data: { roles: ['ROLE_admin', 'ROLE_adminSystem', 'ROLE_casual'] },
     children: [
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
+      { path: '',
+        redirectTo: 'list',
+        pathMatch: 'full'
+
+      },
       { path: 'list', component: ContractListComponent },
-      { path: 'add', component: AddContractComponent },
-      { path: 'modify/:id', component: ModifyContractComponent } 
+      { path: 'add', component: AddContractComponent ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem'] }
+        ,canActivate: [AuthGuard, RoleGuard]},
+      { path: 'modify/:id', component: ModifyContractComponent ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem'] }
+        ,canActivate: [AuthGuard, RoleGuard]}
     ]
   },
-  { 
+  {
     path: 'cases-exceptions',
     component: CasesExceptionsComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: { roles: ['admin', 'adminSystem'] },
+    data: { roles: ['ROLE_admin', 'ROLE_adminSystem'] },
     children: [
       { path: '', redirectTo: 'list', pathMatch: 'full' },
       { path: 'list', component: CaseExceptionListComponent },
-      { path: 'solve/:id', component: SolveCaseExceptionComponent } 
+      { path: 'solve/:id', component: SolveCaseExceptionComponent }
     ]
   },
   {
     path: 'user-management',
     component: UserManagementComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: { roles: ['adminSystem'] },
+    data: { roles: ['ROLE_adminSystem'] },
     children: [
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
-      { path: 'list', component: UserListComponent },
-      { path: 'add', component: AddUserComponent },
-      { path: 'modify/:id', component: ModifyUserComponent } 
+      { path: '',
+        redirectTo: 'list',
+        pathMatch: 'full' },
+      { path: 'list',
+        component: UserListComponent },
+      { path: 'add',
+        component: AddUserComponent },
+      { path: 'modify/:id',
+        component: ModifyUserComponent }
     ]
   },
   {
     path: 'settings',
-    component: SettingsComponent,
-    canActivate: [AuthGuard],
+    component: SettingsComponent
+    ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem', 'ROLE_casual', 'ROLE_special'] }
+    ,canActivate: [AuthGuard, RoleGuard],
     children: [
-      { path: '', redirectTo: 'business-settings', pathMatch: 'full' },
-      { path: 'business-settings', component: BusinessSettingsComponent },
-      { path: 'my-account', component: MyAccountComponent },
+      { path: '',
+        redirectTo: 'business-settings',
+        pathMatch: 'full' },
+      { path: 'business-settings',
+        component: BusinessSettingsComponent },
+      { path: 'my-account',
+        component: MyAccountComponent },
       {
         path: 'currencies-management',
-        component: CurrenciesManagementComponent,
+        component: CurrenciesManagementComponent
+      ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem'] }
+,canActivate: [AuthGuard, RoleGuard],
         children: [
-          { path: '', redirectTo: 'list', pathMatch: 'full' },
-          { path: 'list', component: CurrencyListComponent },
-          { path: 'add', component: AddCurrencyComponent },
-          { path: 'modify/:id', component: ModifyCurrencyComponent } 
+          { path: '', redirectTo: 'list',
+            pathMatch: 'full' },
+          { path: 'list',
+            component: CurrencyListComponent },
+          { path: 'add',
+            component: AddCurrencyComponent },
+          { path: 'modify/:id',
+            component: ModifyCurrencyComponent }
         ]
       },
       {
         path: 'fees-management',
         component: FeesManagementComponent,
         children: [
-          { path: '', redirectTo: 'list', pathMatch: 'full' },
-          { path: 'list', component: FeeListComponent },
-          { path: 'add', component: AddFeeComponent },
-          { path: 'modify/:id', component: ModifyFeeComponent } 
+          { path: '',
+            redirectTo: 'list',
+            pathMatch: 'full' },
+          { path: 'list',
+            component: FeeListComponent },
+          { path: 'add',
+            component: AddFeeComponent },
+          { path: 'modify/:id',
+            component: ModifyFeeComponent }
         ]
+        ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem'] }
+        ,canActivate: [AuthGuard, RoleGuard],
       }
     ]
   }

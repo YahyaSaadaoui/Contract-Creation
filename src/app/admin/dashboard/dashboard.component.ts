@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../authentication/login/auth.service';
-import { RouterModule } from '@angular/router';
+import { AuthService } from '../../authentication/auth.service';
+import {RouterLink, RouterModule} from '@angular/router';
 import { routes } from '../../app.routes';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common'; 
-import { RouterOutlet } from '@angular/router'; 
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule,RouterOutlet],
+  imports: [CommonModule, RouterOutlet, RouterLink],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'] // Or use Tailwind CSS classes directly 
+  styleUrls: ['./dashboard.component.css'] // Or use Tailwind CSS classes directly
 })
 export class DashboardComponent implements OnInit {
   userRole: string | null = null;
@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.userRole = this.authService.getUserRole();
-    console.log("User Role:", this.userRole); 
+    console.log("User Role:", this.userRole);
   }
 
 hasAccess(feature: string): boolean {
