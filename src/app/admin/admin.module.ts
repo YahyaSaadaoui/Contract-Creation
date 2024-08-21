@@ -3,6 +3,9 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {DashboardComponent} from "./dashboard/dashboard.component";
+import { SharedModule } from '../shared/shared.module';
+import {MerchantManagementComponent} from "./merchant-management/merchant-management.component";
+import {ContractCreationComponent} from "./contract-creation/contract-creation.component";
 
 
 
@@ -10,7 +13,9 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
   imports: [
     CommonModule,
     AdminRoutingModule,
-    RouterModule
+    RouterModule,
+    MerchantManagementComponent,
+    ContractCreationComponent,
   ],
   declarations: [],
 })

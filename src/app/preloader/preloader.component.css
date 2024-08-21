@@ -1,0 +1,3 @@
+app-preloader {
+  z-index: 9999; /* Or any sufficiently high value */
+}

@@ -5,6 +5,7 @@ import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './authentication/register/register.component';
 import { AuthGuard } from './authentication/auth.guard.service';
 import { RoleGuard } from './authentication/auth.role-guard.service';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 const routes: Routes = [
   {
@@ -32,7 +33,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes),BrowserAnimationsModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

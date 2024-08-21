@@ -1,40 +1,50 @@
-import { Component, OnInit } from '@angular/core';
+
 import { AuthService } from '../../authentication/auth.service';
-import {RouterLink, RouterModule} from '@angular/router';
-import { routes } from '../../app.routes';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import {ReactiveFormsModule} from "@angular/forms";
+import { Component, ElementRef, OnInit, Renderer2, ViewChild , Inject} from '@angular/core';
+import {NgClass, DOCUMENT, NgIf} from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import {RouterLink} from "@angular/router";
+
+import {MerchantService} from "../merchant-management/merchant.service";
+import {ContractService} from "../contract-creation/contract.service";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink],
+  imports: [CommonModule, RouterOutlet, RouterLink, ReactiveFormsModule, NgClass, FormsModule, NgIf, RouterLink, NgOptimizedImage],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'] // Or use Tailwind CSS classes directly
 })
 export class DashboardComponent implements OnInit {
-  userRole: string | null = null;
 
-  constructor(private authService: AuthService) {}
+  totalMerchants = 0;
+  totalContracts = 0;
+
+
+
+  constructor(
+              private renderer: Renderer2,
+              @Inject(DOCUMENT) private document: Document,
+              private merchantService: MerchantService,
+              private contractService: ContractService
+  ) {}
 
   ngOnInit(): void {
-    this.userRole = this.authService.getUserRole();
-    console.log("User Role:", this.userRole);
+
+    this.merchantService.getMerchants().subscribe(merchants => {
+      this.totalMerchants = merchants.length;
+    });
+
+    this.contractService.getContracts().subscribe(contracts => {
+      this.totalContracts = contracts.length;
+    });
   }
 
-hasAccess(feature: string): boolean {
-  switch (feature) {
-    case 'merchant-management':
-    case 'cases-exceptions':
-    case 'contract-creation':
-    case 'settings':
-      return this.userRole === 'ROLE_casual' || this.userRole === 'ROLE_admin' || this.userRole === 'ROLE_adminSystem';
-    case 'user-management':
-      return this.userRole === 'ROLE_adminSystem';
-    default:
-      return false; // Deny access for unknown features
-  }
-}
+
+
+
 }
 

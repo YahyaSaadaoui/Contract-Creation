@@ -23,8 +23,10 @@
     "@angular/ssr": "^18.0.2",
     "@auth0/angular-jwt": "^5.2.0",
     "@heroicons/react": "^2.1.5",
+    "@moesaid/cleopatra": "^1.1.1",
     "express": "^4.18.2",
     "rxjs": "~7.8.0",
+    "tailwindcss-filters": "^3.0.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },

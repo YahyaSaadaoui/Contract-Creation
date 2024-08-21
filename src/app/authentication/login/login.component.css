@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 .flex.items-center.justify-center.h-screen{
-  background-color: #212121 !important;
+  background-color: #1e2434 !important;
 }
 body {
 
@@ -186,3 +186,8 @@ h1 {
 .mb-4 {
   margin-bottom: 1rem;
 }
+
+app-navbar{
+  display: none !important;
+}
+
