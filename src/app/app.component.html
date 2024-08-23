@@ -1,6 +1,9 @@
+<div class="flex flex-col min-h-screen"> <div class="flex-grow">
+  <router-outlet (activate)="onActivate($event)" class="dark:bg-haiti-950">
+    <app-preloader></app-preloader>
+    <app-navbar *ngIf="showNavbar && (preloaderService.showPreloader$ | async) === false"></app-navbar>
+  </router-outlet>
+</div>
 
-
-<router-outlet (activate)="onActivate($event)" class="dark:bg-haiti-950 min-h-screen">
-  <app-preloader></app-preloader>
-  <app-navbar *ngIf="showNavbar && (preloaderService.showPreloader$ | async) === false"></app-navbar>
-</router-outlet>
+  <app-footer *ngIf="!isLoginPage()"></app-footer>
+</div>

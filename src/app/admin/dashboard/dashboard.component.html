@@ -1,8 +1,17 @@
-<body class="dark:bg-haiti-950 min-h-screen">
+<body class="dark:bg-haiti-950 min-h-screen col-6 sm:min-h-fit sm:min-w-fit ease-in-out duration-300">
 <!-- Todo : retrieves Real Numbers of the merchant and contract and cases. -->
-<main class="max-w-full flex felx-grow justify-center overflow-y-auto dark:bg-dark:bg-haiti-950">
-  <div class="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-12">
-    <div class="bg-blue-zodiac-900 dark:bg-haiti-500 p-6 rounded-lg shadow-md flex flex-col items-center justify-center">
+<div class="flex flex-col items-center justify-center dark:bg-haiti-950 mb-5">
+  <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-zodiac-500 to-haiti-800 text-3xl font-bold dark:from-haiti-800 dark:to-blue-zodiac-500">
+    Welcome Back , {{ username }}
+  </span>
+  <span class="font-bold text-3xl text-gray-400 bg-transparent mt-4">
+    Let's make some strategic moves.
+  </span>
+</div>
+<main class="max-w-full col-6 flex felx-grow justify-center overflow-y-auto dark:bg-dark:bg-haiti-950">
+
+  <div class="grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+    <div class="bg-blue-zodiac-900 dark:bg-haiti-500 p-12 w-[400px] rounded-lg shadow-md flex flex-col items-center justify-center">
       <i class="fas fa-users text-4xl text-blue-500 mb-4"></i>
       <h3 class="text-lg text-blue-zodiac-50 dark:text-haiti-100 font-semibold mb-2">Total Merchants</h3>
       <p class="text-3xl text-blue-zodiac-50 dark:text-haiti-100 font-bold">{{ totalMerchants }}</p>
@@ -18,6 +27,11 @@
       <p class="text-3xl text-blue-zodiac-50 dark:text-haiti-100 font-bold">8</p>
     </div>
   </div>
+  <div class="chart-container">
+<!--    <apx-chart [options]="chartOptions"></apx-chart>-->
+  </div>
   <router-outlet></router-outlet>
 </main>
+<!-- Chart will be here -->
+
 </body>

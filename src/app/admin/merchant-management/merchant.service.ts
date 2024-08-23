@@ -21,7 +21,6 @@ export class MerchantService {
   getMerchants(): Observable<MerchantDTO[]> {
     return this.http.get<MerchantDTO[]>(`${this.apiUrl}/allMerchants`);
   }
-
   getMerchant(id: number): Observable<MerchantDTO> {
     return this.http.get<MerchantDTO>(`${this.apiUrl}/merchants/${id}`);
   }
@@ -30,7 +29,7 @@ export class MerchantService {
     return this.http.put<MerchantDTO>(`${this.apiUrl}/merchants/${id}`, merchant);
   }
 
-  deleteMerchant(id: number): Observable<void> {
+  deleteMerchant(id: number | undefined): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/merchants/${id}`);
   }
 }

@@ -1,8 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-app-dashboard .shadow-switcher {
-  transition: transform 0.5s ease-in-out initial; /* Adjust duration and easing as needed */
+* {
+  box-sizing: border-box;
 }
 

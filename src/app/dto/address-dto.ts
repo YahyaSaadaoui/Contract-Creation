@@ -1,5 +1,6 @@
 export interface AddressDTO {
-  addressId?: number; // Optional for new addresses
+  addressId?: number;
+  isPrimary: boolean;
   street: string;
   city: string;
   state: string;

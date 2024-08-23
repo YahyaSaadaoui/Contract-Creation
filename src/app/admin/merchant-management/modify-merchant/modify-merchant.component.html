@@ -1,1 +1,49 @@
-<p>modify-merchant works!</p>
+<div class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="close()">&times;</span>
+    <h2>Edit Merchant</h2>
+
+    <!-- Form to edit merchant -->
+    <form (ngSubmit)="saveMerchant()">
+      <div class="form-group">
+        <label for="merchantName">Merchant Name</label>
+        <input type="text" id="merchantName" [(ngModel)]="merchant.merchantName" name="merchantName" required />
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status</label>
+        <input type="text" id="status" [(ngModel)]="merchant.status" name="status" required />
+      </div>
+
+      <div class="form-group">
+        <label for="taxRate">Tax Rate</label>
+        <input type="number" id="taxRate" [(ngModel)]="merchant.taxRate" name="taxRate" required />
+      </div>
+
+      <!-- Activities -->
+      <div class="form-group">
+        <label>Activities</label>
+        <div *ngFor="let activity of merchant.activities; let i = index">
+          <input [(ngModel)]="merchant.activities[i].activityName" name="activity-{{i}}" />
+        </div>
+        <button type="button" (click)="merchant.activities.push({ activityName: '' })">Add Activity</button>
+      </div>
+
+      <!-- Addresses -->
+      <div class="form-group">
+        <label>Addresses</label>
+        <div *ngFor="let address of merchant.addresses; let i = index">
+          <input [(ngModel)]="merchant.addresses[i].street" name="street-{{i}}" placeholder="Street" />
+          <input [(ngModel)]="merchant.addresses[i].city" name="city-{{i}}" placeholder="City" />
+          <input [(ngModel)]="merchant.addresses[i].state" name="state-{{i}}" placeholder="State" />
+          <input [(ngModel)]="merchant.addresses[i].country" name="country-{{i}}" placeholder="Country" />
+          <input [(ngModel)]="merchant.addresses[i].zipCode" name="zipCode-{{i}}" placeholder="Zip Code" />
+          <!-- Add other address fields similarly -->
+        </div>
+        <button type="button" (click)="merchant.addresses.push({ isPrimary: false, street: '', city: '', state: '', country: '', zipCode: '', email: '', phoneNumber: '', faxNumber: '' })">Add Address</button>
+      </div>
+
+      <button type="submit">Update Merchant</button>
+    </form>
+  </div>
+</div>

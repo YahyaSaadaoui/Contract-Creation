@@ -20,14 +20,15 @@ export class NavbarComponent implements OnInit{
               private renderer: Renderer2,
               @Inject(DOCUMENT) private document: Document,
               private themeService: ThemeService
-  ) {}
 
+  ) {}
+  username: string | null = null;
+  role: string | null = null;
   userRole: string | null = null;
   sidebarToggle= false;
   darkMode = false;
   openDropdown: string | null = null;
   @ViewChild('notificationMenu') notificationMenu!: ElementRef;
-  @ViewChild('chatMenu') chatMenu!: ElementRef;
   @ViewChild('settingsMenu') settingsMenu!: ElementRef;
 
 
@@ -57,13 +58,13 @@ export class NavbarComponent implements OnInit{
     this.renderer.listen('window', 'click', (event: Event) => {
       if (this.openDropdown &&
         !this.notificationMenu.nativeElement.contains(event.target) &&
-        !this.chatMenu.nativeElement.contains(event.target) &&
         !this.settingsMenu.nativeElement.contains(event.target) // Include settingsMenu
       ) {
         this.openDropdown = null;
       }
     });
-
+    this.username = this.authService.getUsernameFromToken();
+    this.role = this.authService.getUserRolebrute();
   }
   hasAccess(feature: string): boolean {
     switch (feature) {

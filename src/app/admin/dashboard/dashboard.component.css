@@ -1,3 +1,8 @@
 app-dashboard .shadow-switcher {
   transition: transform 0.1s ease-in-out initial; /* Adjust duration and easing as needed */
 }
+.gradient-text {
+  background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); /* Adjust colors as desired */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

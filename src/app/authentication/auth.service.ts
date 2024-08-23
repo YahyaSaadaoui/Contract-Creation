@@ -65,6 +65,20 @@
       return null;
     }
 
+    getUserRolebrute(): string | null {
+      if (isPlatformBrowser(this.platformId)) {
+        const token = this.getToken();
+        if (token && !this.jwtHelper.isTokenExpired(token)) {
+          const decodedToken = this.jwtHelper.decodeToken(token);
+          const roles = decodedToken['roles'] as string;
+          if (roles) {
+            return roles.replace(/^ROLE_/, ''); // Remove the "ROLE_" prefix
+          }
+        }
+      }
+      return null;
+    }
+
     setToken(token: string) {
       localStorage.setItem('token', token);
     }
@@ -83,4 +97,14 @@
       this.isLoggedInSubject.next(false);
       this.router.navigate(['/login']);
     }
+
+    getUsernameFromToken(): string | null {
+      const token = this.getToken();
+      if (token && !this.jwtHelper.isTokenExpired(token)) {
+        const decodedToken = this.jwtHelper.decodeToken(token);
+        return decodedToken?.sub || null; // assuming 'sub' holds the username
+      }
+      return null;
+    }
+
   }

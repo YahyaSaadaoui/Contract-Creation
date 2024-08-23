@@ -8,16 +8,17 @@ export interface MerchantDTO {
   status: string;
   taxRate: number;
   accountBalance: number;
-  contactInfo: string;
   bankAccountDetails: string;
   contractStatus: string;
-  updatedAt?: Date;
-  deletedAt?: Date;
-  deletedBy?: Date;
-  createdBy?: Date;
-  updatedBy?: Date;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date;
+  deleted_by?: string;
+  created_by?: string;
+  updated_by?: string;
   settlementOption: string;
   feeStructure: string;
   addresses: AddressDTO[];
   activities: ActivityDTO[];
 }
+
