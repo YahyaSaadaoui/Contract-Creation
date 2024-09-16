@@ -1,6 +1,6 @@
   import { Injectable } from '@angular/core';
   import { HttpClient } from '@angular/common/http';
-  import { Observable, BehaviorSubject, of } from 'rxjs';
+  import {Observable, BehaviorSubject, of, switchMap} from 'rxjs';
   import { finalize, catchError } from 'rxjs/operators';
   import { LoginRequest } from '../dto/login-request';
   import { JwtResponse } from '../dto/jwt-response';
@@ -24,8 +24,21 @@
       private router: Router,
       public jwtHelper: JwtHelperService,
       @Inject(PLATFORM_ID) private platformId: Object
-    ) {this.token = this.getToken();}
-
+    ) {this.token = this.getToken();this.initializeAuth();}
+    initializeAuth() {
+      if (isPlatformBrowser(this.platformId)) {
+        const token = this.getToken();
+        if (token && !this.jwtHelper.isTokenExpired(token)) {
+          this.setToken(token);
+          this.isLoggedInSubject.next(true);
+        } else {
+          this.isLoggedInSubject.next(false);
+        }
+        this.isInitializingSubject.next(false);
+      } else {
+        this.isInitializingSubject.next(false);
+      }
+    }
     login(loginRequest: LoginRequest): Observable<JwtResponse | null> {
       return this.http.post<JwtResponse>(`${this.apiUrl}/login`, loginRequest).pipe(
         catchError(error => {
@@ -40,7 +53,6 @@
 
     isLoggedIn(): boolean {
       if (isPlatformBrowser(this.platformId)) {
-         // Get token from localStorage
         this.isLoggedInSubject.next(this.token != null && !this.jwtHelper.isTokenExpired(this.token));
       } else {
         this.isLoggedInSubject.next(false);
@@ -72,7 +84,7 @@
           const decodedToken = this.jwtHelper.decodeToken(token);
           const roles = decodedToken['roles'] as string;
           if (roles) {
-            return roles.replace(/^ROLE_/, ''); // Remove the "ROLE_" prefix
+            return roles.replace(/^ROLE_/, '');
           }
         }
       }
@@ -106,5 +118,34 @@
       }
       return null;
     }
+    getUserDetailsByUsername(): Observable<any> {
+      const username = this.getUsernameFromToken();
+      if (username) {
+        return this.http.get<any>(`${this.apiUrl}/username/${username}`).pipe(
+          catchError(error => {
+            console.error('Failed to get user details:', error);
+            return of(null);
+          })
+        );
+      } else {
+        return of(null);
+      }
+    }
 
+    getUserImage(): Observable<any> {
+      return this.getUserDetailsByUsername().pipe(
+        switchMap(user => {
+          if (user && user.imageUrl) {
+            return this.http.get(user.imageUrl, { responseType: 'blob' }).pipe(
+              catchError(error => {
+                console.error('Failed to fetch user image:', error);
+                return of(null);
+              })
+            );
+          } else {
+            return of(null);
+          }
+        })
+      );
+    }
   }

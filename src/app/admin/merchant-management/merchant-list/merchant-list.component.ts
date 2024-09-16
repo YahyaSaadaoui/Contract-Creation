@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { MerchantDTO } from "../../../dto/merchant-dto";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { MerchantService } from "../merchant.service";
 import { NgForOf, NgIf } from "@angular/common";
 import { AddressDTO } from "../../../dto/address-dto";
-import {AddMerchantComponent} from "../add-merchant/add-merchant.component";
-import {ModifyMerchantComponent} from "../modify-merchant/modify-merchant.component";
+import { OnboardingMerchantComponent } from "../onboarding-merchant/onboarding-merchant.component";
+import { ModifyMerchantComponent } from "../modify-merchant/modify-merchant.component";
 import { ModalService } from '../modal.service';
-import {RouterLink} from "@angular/router";
+import { RouterLink } from "@angular/router";
+import { MSSDTO } from "../../../dto/MerchantMSSDTO";
+import { AuthService } from "../../../authentication/auth.service";
+import {MerchantDTO} from "../../../dto/merchant-dto";
+
 @Component({
   selector: 'app-merchant-list',
   standalone: true,
   imports: [
     NgForOf,
     NgIf,
-    AddMerchantComponent,
+    OnboardingMerchantComponent,
     ModifyMerchantComponent,
     RouterLink,
   ],
@@ -23,14 +26,40 @@ import {RouterLink} from "@angular/router";
 })
 export class MerchantListComponent implements OnInit {
   merchants: MerchantDTO[] = [];
-  selectedMerchant: MerchantDTO | null = null;
+  selectedMerchantId: number | undefined = 0;
   isAddModalOpen: boolean = false;
-  isEditModalOpen: boolean = false;
+  username: string | null = null;
+  @Input() isVisible = false;
+  @Input() title = 'Confirm Deletion';
+  @Input() message = 'Are you sure you want to proceed?';
 
-  constructor(private merchantService: MerchantService, private modalService: ModalService) {}
+  @Output() confirmed = new EventEmitter<void>();
+  @Output() canceled = new EventEmitter<void>();
+
+
+  deleteMerchant(id: number | undefined) {
+      this.merchantService.deleteMerchant(id).subscribe(() => {
+        this.loadMerchants();
+      });
+    this.isVisible = false;
+  }
+
+   showConfirmationModal() {
+      this.isVisible = true;
+    }
+
+    cancel() {
+      this.isVisible = false;
+    }
+
+  constructor(private authService: AuthService, private merchantService: MerchantService, private modalService: ModalService) {}
 
   ngOnInit(): void {
     this.loadMerchants();
+  }
+
+  selectMerchant(id: number | undefined): void {
+    this.selectedMerchantId = id;
   }
 
   hasPrimaryAddress(addresses: AddressDTO[]): boolean {
@@ -43,29 +72,23 @@ export class MerchantListComponent implements OnInit {
     });
   }
 
-  openAddModal(): void {
-    this.isAddModalOpen = true;
+  private getCurrentUser(): string {
+    this.username = this.authService.getUsernameFromToken();
+    return this.username ? this.username : '';
+  }
+
+  deselectMerchant(): void {
+    this.selectedMerchantId = 0;
+  }
+
+  refreshMerchants(): void {
+    this.loadMerchants();
+    this.deselectMerchant();
   }
 
   closeAddModal(): void {
     this.isAddModalOpen = false;
   }
 
-  openEditModal(merchant: MerchantDTO): void {
-    this.selectedMerchant = merchant;
-    this.isEditModalOpen = true;
-  }
 
-  closeEditModal(): void {
-    this.selectedMerchant = null;
-    this.isEditModalOpen = false;
-  }
-
-  deleteMerchant(id: number | undefined) {
-    if (confirm('Are you sure you want to delete this merchant?')) {
-      this.merchantService.deleteMerchant(id).subscribe(() => {
-        this.loadMerchants();
-      });
-    }
-  }
 }

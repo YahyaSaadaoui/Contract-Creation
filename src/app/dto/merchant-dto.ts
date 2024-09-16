@@ -2,7 +2,7 @@ import {AddressDTO} from "./address-dto";
 import {ActivityDTO} from "./activity-dto";
 
 export interface MerchantDTO {
-  id?: number; // Optional for new merchants
+  id?: number;
   merchantNumber: string;
   merchantName: string;
   status: string;
@@ -21,4 +21,3 @@ export interface MerchantDTO {
   addresses: AddressDTO[];
   activities: ActivityDTO[];
 }
-

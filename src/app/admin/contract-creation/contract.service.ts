@@ -8,26 +8,30 @@ import {Injectable} from "@angular/core";
 })
 
 export class ContractService {
-  private apiUrl = 'http://localhost:8083/api/merchants/onboarding';
+  private gatway = 'http://localhost:8083/api/merchants/onboarding';
+
   constructor(private http: HttpClient) { }
 
   createContract(contract: ContractDTO): Observable<ContractDTO> {
-    return this.http.post<ContractDTO>(`${this.apiUrl}/contracts`, contract);
+    return this.http.post<ContractDTO>(`${this.gatway}/contracts`, contract);
   }
 
   getContracts(): Observable<ContractDTO[]> {
-    return this.http.get<ContractDTO[]>(`${this.apiUrl}/allContracts`); // Assuming an endpoint to get all contracts
+    return this.http.get<ContractDTO[]>(`${this.gatway}/allContracts`);
   }
 
+  getMerchantNumbers(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.gatway}/merchantNumbers`);
+  }
   getContract(id: number): Observable<ContractDTO> {
-    return this.http.get<ContractDTO>(`${this.apiUrl}/contracts/${id}`);
+    return this.http.get<ContractDTO>(`${this.gatway}/contract/${id}`);
   }
 
   updateContract(id: number, contract: ContractDTO): Observable<ContractDTO> {
-    return this.http.put<ContractDTO>(`${this.apiUrl}/contracts/${id}`, contract);
+    return this.http.put<ContractDTO>(`${this.gatway}/contractUpdated/${id}`, contract);
   }
 
-  deleteContract(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/contracts/${id}`);
+  deleteContract(id: number | undefined): Observable<void> {
+    return this.http.delete<void>(`${this.gatway}/contracts/${id}`);
   }
 }

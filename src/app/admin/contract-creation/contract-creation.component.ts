@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {RouterOutlet} from "@angular/router";
 import { Router, ActivatedRoute } from '@angular/router';
+import {ContractDTO} from "../../dto/contract-dto";
 
 @Component({
   selector: 'app-contract-creation',
@@ -12,5 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrl: './contract-creation.component.css'
 })
 export class ContractCreationComponent {
+
   constructor(private router: Router, private route: ActivatedRoute) { }
+
 }

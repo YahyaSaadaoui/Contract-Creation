@@ -1,1 +1,71 @@
-<p>add-contract works!</p>
+<div class="h-screen relative mb-12 mt-4 w-screen min-w-[40%] max-w-screen rounded-lg bg-white place-self-center leading-relaxed text-blue-gray-500  align-middle dark:bg-gray-900">
+  <div class="flex justify-center p-4 text-2xl font-semibold leading-snug shrink-0 text-haiti-950 dark:text-haiti-100 ease-in-out duration-300">
+    Add A Contract
+  </div>
+  <div class="relative p-4 leading-relaxed border-t border-t-blue-gray-100 dark:border-t-haiti-200 ">
+    <form (ngSubmit)="saveContract()">
+      <!-- Navigation Buttons -->
+      <div class="flex flex-wrap items-center justify-end  shrink-0 text-blue-gray-500 mt-2">
+
+        <!-- Abort Button -->
+        <button
+          (click)="closeAddModal()"
+          class="px-6 py-3 mr-1 font-sans text-xs font-bold text-red-500 uppercase transition-all rounded-lg middle none center hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+          Abort
+        </button>
+        <button
+          *ngIf="currentStep === 'Activities'"
+          type="button"
+          (click)="resetForm()"
+          class="px-6 py-3 mr-1 font-sans text-xs font-bold text-blue-zodiac-700 uppercase transition-all rounded-lg middle none center hover:bg-blue-zodiac-500/10 active:bg-blue-zodiac-500/30">
+          Add Another Contract
+        </button>
+        <!-- Save Button -->
+        <button
+          type="button"
+          (click)="saveContract()"
+          class="middle none center py-3 px-6 font-sans text-xs font-bold uppercase shadow-md shadow-blue-zodiac-900-500/40 transition-all hover:shadow-lg dark:hover:shadow-haiti-500-500/40 hover:shadow-blue-zodiac-900-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none rounded-lg bg-gradient-to-tl from-blue-zodiac-900 to-haiti-600 text-blue-50">
+          Save
+        </button>
+
+      </div>
+      <!-- Step 1: Merchant Info -->
+      <div *ngIf="currentStep === 'Merchant'" class="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-900 rounded-lg">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+          <div class="form-group">
+            <label for="merchantNumber" class="block text-sm font-semibold dark:text-haiti-400 text-black">Merchant Id</label>
+            <select id="merchantNumber" [(ngModel)]="contract.merchantNumber" name="merchantNumber" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <option *ngFor="let number of MerchantNumbers" [value]="number">{{ number }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="status" class="block text-sm font-semibold dark:text-haiti-400 text-black">Merchant DDA</label>
+            <input type="text" id="status" [(ngModel)]="contract.merchantDDA" name="status" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group">
+            <label for="taxRate" class="block text-sm font-semibold dark:text-haiti-400 text-black">Contract Starting Date</label>
+            <input type="date" id="taxRate" [(ngModel)]="contract.contractStarts" name="taxRate" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group">
+            <label for="accountBalance" class="block text-sm font-semibold dark:text-haiti-400 text-black">Contract Ending Date</label>
+            <input type="date" id="accountBalance" [(ngModel)]="contract.contractEnds" name="accountBalance" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group">
+            <label for="bankAccountDetails" class="block text-sm font-semibold dark:text-haiti-400 text-black">Settlement Option</label>
+            <input type="text" id="bankAccountDetails" [(ngModel)]="contract.settlementOption" name="bankAccountDetails" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group">
+            <label for="contractStatus" class="block text-sm font-semibold dark:text-haiti-400 text-black">Fee Structure</label>
+            <input type="text" id="contractStatus" [(ngModel)]="contract.feeStructure" name="contractStatus" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+

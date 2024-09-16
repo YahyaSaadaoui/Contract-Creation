@@ -1,49 +1,112 @@
-<div class="modal">
-  <div class="modal-content">
-    <span class="close" (click)="close()">&times;</span>
-    <h2>Edit Merchant</h2>
+<div class="h-full relative mb-12 mt-4 w-screen min-w-[40%] max-w-screen rounded-lg bg-white place-self-center leading-relaxed text-blue-gray-500  align-middle dark:bg-gray-900">
+  <div class="flex justify-center p-4 text-2xl font-semibold leading-snug shrink-0 text-haiti-950 dark:text-haiti-100 ease-in-out duration-300">
+    Modify Merchant : {{merchant.merchantName}}
+  </div>
 
-    <!-- Form to edit merchant -->
-    <form (ngSubmit)="saveMerchant()">
-      <div class="form-group">
-        <label for="merchantName">Merchant Name</label>
-        <input type="text" id="merchantName" [(ngModel)]="merchant.merchantName" name="merchantName" required />
+  <div class="relative p-4 leading-relaxed border-t border-t-blue-gray-100 dark:border-t-haiti-200 ">
+    <form (ngSubmit)="updateMerchant()">
+      <!-- Navigation Buttons -->
+      <div class="flex flex-wrap items-center justify-end  shrink-0 text-blue-gray-500 mt-2">
+        <button
+          (click)="closeAddModal()"
+          class="px-6 py-3 mr-1 font-sans text-xs font-bold text-red-500 uppercase transition-all rounded-lg middle none center hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+          Abort
+        </button>
+        <!-- Save Button -->
+        <button
+          type="button"
+          (click)="updateMerchant()"
+          class="middle none center py-3 px-6 font-sans text-xs font-bold uppercase shadow-md shadow-blue-zodiac-900-500/40 transition-all hover:shadow-lg dark:hover:shadow-haiti-500-500/40 hover:shadow-blue-zodiac-900-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none rounded-lg bg-gradient-to-tl from-blue-zodiac-900 to-haiti-600 text-blue-50">
+          Save
+        </button>
+
       </div>
+      <!-- Step 1: Merchant Info -->
 
-      <div class="form-group">
-        <label for="status">Status</label>
-        <input type="text" id="status" [(ngModel)]="merchant.status" name="status" required />
-      </div>
+      <div class="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-900 rounded-lg h-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="form-group">
+            <label for="merchantName" class="block text-sm font-semibold dark:text-haiti-400 text-black">Merchant Name</label>
+            <input type="text" id="merchantName" [(ngModel)]="merchant.merchantName" name="merchantName" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
 
-      <div class="form-group">
-        <label for="taxRate">Tax Rate</label>
-        <input type="number" id="taxRate" [(ngModel)]="merchant.taxRate" name="taxRate" required />
-      </div>
+          <div class="form-group">
+            <label for="status" class="block text-sm font-semibold dark:text-haiti-400 text-black">Status</label>
+            <input type="text" id="status" [(ngModel)]="merchant.status" name="status" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
 
-      <!-- Activities -->
-      <div class="form-group">
-        <label>Activities</label>
-        <div *ngFor="let activity of merchant.activities; let i = index">
-          <input [(ngModel)]="merchant.activities[i].activityName" name="activity-{{i}}" />
+          <div class="form-group">
+            <label for="taxRate" class="block text-sm font-semibold dark:text-haiti-400 text-black">Tax Rate</label>
+            <input type="number" id="taxRate" [(ngModel)]="merchant.taxRate" name="taxRate" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group">
+            <label for="accountBalance" class="block text-sm font-semibold dark:text-haiti-400 text-black">Account Balance</label>
+            <input type="number" id="accountBalance" [(ngModel)]="merchant.accountBalance" name="accountBalance" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group">
+            <label for="bankAccountDetails" class="block text-sm font-semibold dark:text-haiti-400 text-black">Bank Account</label>
+            <input type="text" id="bankAccountDetails" [(ngModel)]="merchant.bankAccountDetails" name="bankAccountDetails" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group">
+            <label for="contractStatus" class="block text-sm font-semibold dark:text-haiti-400 text-black">Contract Status</label>
+            <input type="text" id="contractStatus" [(ngModel)]="merchant.contractStatus" name="contractStatus" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group">
+            <label for="created_by" class="block text-sm font-semibold dark:text-haiti-400 text-black">Updated By</label>
+            <input type="text" id="created_by" [(ngModel)]="merchant.updated_by" name="created_by" defaultValue="{{username}}" placeholder="{{username}}" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
         </div>
-        <button type="button" (click)="merchant.activities.push({ activityName: '' })">Add Activity</button>
-      </div>
+        <div class="form-group mb-4">
+          <label class="block text-sm font-semibold hover:text-blue-zodiac-800 text-haiti-950 dark:text-haiti-100">Addresses</label>
+          <div *ngFor="let address of merchant.addresses; let i = index" class="flex flex-wrap items-center mb-4">
+            <!-- Address fields -->
+            <input [(ngModel)]="merchant.addresses[i].street" name="street-{{i}}"
+                   class="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Street" />
+            <input [(ngModel)]="merchant.addresses[i].city" name="city-{{i}}"
+                   class="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="City" />
+            <input [(ngModel)]="merchant.addresses[i].state" name="state-{{i}}"
+                   class="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="State" />
+            <input [(ngModel)]="merchant.addresses[i].country" name="country-{{i}}"
+                   class="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Country" />
+            <input [(ngModel)]="merchant.addresses[i].zipCode" name="zipCode-{{i}}"
+                   class="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="ZIP Code" />
+            <input [(ngModel)]="merchant.addresses[i].email" name="email-{{i}}"
+                   class="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" />
+            <input [(ngModel)]="merchant.addresses[i].phoneNumber" name="phoneNumber-{{i}}"
+                   class="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Phone Number" />
+            <input type="checkbox" [(ngModel)]="address.isPrimary" name="isPrimary-{{ i }}"
+                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
 
-      <!-- Addresses -->
-      <div class="form-group">
-        <label>Addresses</label>
-        <div *ngFor="let address of merchant.addresses; let i = index">
-          <input [(ngModel)]="merchant.addresses[i].street" name="street-{{i}}" placeholder="Street" />
-          <input [(ngModel)]="merchant.addresses[i].city" name="city-{{i}}" placeholder="City" />
-          <input [(ngModel)]="merchant.addresses[i].state" name="state-{{i}}" placeholder="State" />
-          <input [(ngModel)]="merchant.addresses[i].country" name="country-{{i}}" placeholder="Country" />
-          <input [(ngModel)]="merchant.addresses[i].zipCode" name="zipCode-{{i}}" placeholder="Zip Code" />
-          <!-- Add other address fields similarly -->
+            <label for="isPrimary-{{ i }}" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Primary Address</label>
+            <button type="button" (click)="removeAddress(i)" class="px-1 py-1.5 text-xs font-medium focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:text-haiti-400 dark:focus:ring-blue-800 self-end items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 dark:text-haiti-400 text-blue-zodiac-700">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <button type="button" (click)="addAddress()" class="font-bold hover:text-blue-zodiac-800 text-haiti-950 dark:text-haiti-100">
+            Add Address
+          </button>
         </div>
-        <button type="button" (click)="merchant.addresses.push({ isPrimary: false, street: '', city: '', state: '', country: '', zipCode: '', email: '', phoneNumber: '', faxNumber: '' })">Add Address</button>
+        <div class="form-group mb-4">
+          <label class="block text-sm font-semibold dark:text-haiti-400 text-black">Activities</label>
+          <div *ngFor="let activity of merchant.activities; let i = index" class="flex items-center mb-2">
+            <input [(ngModel)]="merchant.activities[i].activityName" name="activity-{{i}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            <button type="button" (click)="removeActivity(i)" class="px-1 py-1.5 text-xs font-medium focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:text-haiti-400 dark:focus:ring-blue-800 self-end items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 dark:text-haiti-400 text-blue-zodiac-700">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <button type="button" (click)="merchant.activities.push({ activityName: '' })" class="hover:text-blue-zodiac-800 text-haiti-950 dark:text-haiti-100 font-bold">
+            Add Activity
+          </button>
+        </div>
       </div>
-
-      <button type="submit">Update Merchant</button>
     </form>
   </div>
 </div>

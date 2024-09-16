@@ -20,9 +20,10 @@ import {
   ApexLegend,
   NgApexchartsModule
 } from "ng-apexcharts";
-import ApexCharts from 'apexcharts';
+
 import {ChartOptions} from "../../app.component";
 import {AuthService} from "../../authentication/auth.service";
+
 
 
 
@@ -51,13 +52,38 @@ export class DashboardComponent implements OnInit {
       yaxis: [/* y-axis annotations */]
     }
   };
-
+  searchQuery: string = '';
+  tasks: { name: string; completed: boolean }[] = [];
+  newTask: string = '';
   merchantData: any[] = [];
   contractData: any[] = [];
   totalMerchants = 0;
   totalContracts = 0;
+  totalCases = 0;
+  totalDrops = 9;
+  totalRemovals = 1;
+  totalVerifications = 1;
+  smartBoxStatus="up";
+  contractEngineStatus ="up";
   username: string | null = null;
-
+  users = [
+    {
+      name: 'Hafssa El Omrani',
+      email: 'leslie.alexander@gmail.com',
+      image: '/assets/user/user-02.png'
+    },
+    {
+      name: 'Yahya Saadaoui',
+      email: 'yahya.saadaoui@gmail.com',
+      image: '/assets/user/dev.png'
+    }
+    ,
+    {
+      name: 'Ilyas El Omrani',
+      email: 'leslie.alexander@gmail.com',
+      image: '/assets/user/user-03.png'
+    }
+  ];
   constructor(
               private renderer: Renderer2,
               @Inject(DOCUMENT) private document: Document,
@@ -67,7 +93,7 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
+    this.loadTasks();
     this.merchantService.getMerchants().subscribe(merchants => {
       this.totalMerchants = merchants.length;
     });
@@ -84,7 +110,10 @@ export class DashboardComponent implements OnInit {
       this.totalContracts = contracts.length;
       this.updateContractData();
     });
-
+    const savedTasks = localStorage.getItem('tasks');
+    if (savedTasks) {
+      this.tasks = JSON.parse(savedTasks);
+    }
     this.initializeChart();
     this.username = this.authService.getUsernameFromToken();
   }
@@ -178,8 +207,52 @@ export class DashboardComponent implements OnInit {
       }
     };
   }
+  filteredUsers() {
+    if (!this.searchQuery.trim()) {
+      return this.users;
+    }
+    return this.users.filter(user =>
+      user.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+  }
 
+  loadTasks() {
+    const savedTasks = localStorage.getItem('tasks');
+    if (savedTasks) {
+      this.tasks = JSON.parse(savedTasks);
+    }
+  }
 
+  // Save tasks to localStorage
+  saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(this.tasks));
+  }
+
+  addTask() {
+    if (this.newTask.trim()) {
+      this.tasks.push({ name: this.newTask, completed: false });
+      this.newTask = '';
+      this.saveTasks();
+    }
+  }
+
+  removeTask(index: number) {
+    this.tasks.splice(index, 1);
+    this.saveTasks();
+  }
+
+  toggleTaskCompletion(index: number) {
+    this.tasks[index].completed = !this.tasks[index].completed;
+    this.saveTasks();
+  }
+
+  editTask(index: number) {
+    const updatedTask = prompt("Edit task:", this.tasks[index].name);
+    if (updatedTask !== null) {
+      this.tasks[index].name = updatedTask;
+      this.saveTasks();
+    }
+  }
 
   updateMerchantData(): void {
     // Example data processing, adjust as needed

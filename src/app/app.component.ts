@@ -1,21 +1,19 @@
 import {NavigationEnd, RouterOutlet} from '@angular/router';
-import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, PLATFORM_ID, Renderer2, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import { ApplicationInitStatus } from '@angular/core';
 import { Inject } from '@angular/core';
 import { AuthService } from './authentication/auth.service';
-import {PreloaderComponent} from "./preloader/preloader.component";
+import {PreloaderComponent} from "./shared/preloader/preloader.component";
 import {NavbarComponent} from "./shared/navbar/navbar.component";
-import {AsyncPipe, DOCUMENT, NgIf} from "@angular/common";
-import {PreloaderService} from "./preloader/preloader.service";
+import {AsyncPipe, DOCUMENT, isPlatformBrowser, NgIf} from "@angular/common";
+import {PreloaderService} from "./shared/preloader/preloader.service";
 import {LoginComponent} from "./authentication/login/login.component";
 import {ThemeService} from "./shared/navbar/ThemeService";
 import {SharedModule} from "./shared/shared.module";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {ContractService} from "./admin/contract-creation/contract.service";
-import {MerchantService} from "./admin/merchant-management/merchant.service";
 import {
-  ChartComponent,
   ApexAxisChartSeries,
   ApexChart,
   ApexXAxis,
@@ -28,7 +26,7 @@ import {
   NgApexchartsModule
 } from "ng-apexcharts";
 import ApexCharts from 'apexcharts';
-import {AddMerchantComponent} from "./admin/merchant-management/add-merchant/add-merchant.component";
+import {OnboardingMerchantComponent} from "./admin/merchant-management/onboarding-merchant/onboarding-merchant.component";
 import {ModifyMerchantComponent} from "./admin/merchant-management/modify-merchant/modify-merchant.component";
 import {MerchantListComponent} from "./admin/merchant-management/merchant-list/merchant-list.component";
 import {MerchantManagementComponent} from "./admin/merchant-management/merchant-management.component";
@@ -41,6 +39,17 @@ import {AddContractComponent} from "./admin/contract-creation/add-contract/add-c
 import {ModifyContractComponent} from "./admin/contract-creation/modify-contract/modify-contract.component";
 import {AuthenticationModule} from "./authentication/authentication.module";
 import {FooterComponent} from "./shared/footer/footer.component";
+import {MerchantService} from "./admin/merchant-management/merchant.service";
+import { NgToastModule } from 'ng-angular-popup' // to be added
+import { ToasterPosition } from 'ng-angular-popup';
+import {SidebarComponent} from "./shared/sidebar/sidebar.component";
+import {SidebarService} from "./shared/sidebar/sidebar.service";
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {CdfTypesComponent} from "./admin/settings/business-settings/cdf-types/cdf-types.component";
+import {FeesTypesComponent} from "./admin/settings/business-settings/fees-types/fees-types.component";
+import {SettlementTypesComponent} from "./admin/settings/business-settings/settlement-types/settlement-types.component";
+import {CurrenciesComponent} from "./admin/settings/business-settings/currencies/currencies.component";
+import {FeesPercentagesComponent} from "./admin/settings/business-settings/fees-percentages/fees-percentages.component";
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -68,7 +77,7 @@ export type ChartOptions = {
     DashboardComponent,
     NavbarComponent,
     SettingsComponent,
-    AddMerchantComponent,
+    OnboardingMerchantComponent,
     ModifyMerchantComponent,
     MerchantListComponent,
     MerchantManagementComponent,
@@ -82,8 +91,17 @@ export type ChartOptions = {
     AsyncPipe,
     SharedModule,
     NgxChartsModule,
-    FooterComponent
+    FooterComponent,
+    NgToastModule,
+    SidebarComponent,
+    MatTooltipModule,
+    FeesPercentagesComponent,
+    CurrenciesComponent,
+    FeesTypesComponent,
+    SettlementTypesComponent,
+    CdfTypesComponent
   ],
+  providers: [SidebarService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -91,8 +109,9 @@ export class AppComponent implements OnInit {
   title = 'cash-business-solution';
   showPreloader = true;
   showNavbar= true;
+  ToasterPosition = ToasterPosition;
   isLoginPage(): boolean {
-    return this.router.url === '/login'; // Adjust '/login' to your actual login route
+    return this.router.url === '/login';
   }
   onActivate(event: any) {
     this.showNavbar = !(event instanceof LoginComponent);
@@ -107,41 +126,57 @@ export class AppComponent implements OnInit {
     private appInitStatus: ApplicationInitStatus,
     @Inject(DOCUMENT) private document: Document,
     private merchantService: MerchantService,
-    private contractService: ContractService
-  ) {
-    // Check for token and update isLoggedInSubject immediately in the constructor
-    if (typeof localStorage !== 'undefined') {
-      const token = localStorage.getItem('token');
-      if (token && !this.authService.jwtHelper.isTokenExpired(token)) {
-        this.authService.setToken(token);
-        this.authService.isLoggedInSubject.next(true);
-      }
+    private contractService: ContractService,
+    @Inject(PLATFORM_ID) private platformId: Object
+) {
+    // const token = localStorage.getItem('token');
+    //
+    // if (typeof localStorage !== 'undefined'  && isPlatformBrowser(this.platformId) ) {
+    //   if (token && !this.authService.jwtHelper.isTokenExpired(token)) {
+    //     this.authService.setToken(token);
+    //     this.authService.isLoggedInSubject.next(true);
+    //   }
+
+      if (isPlatformBrowser(this.platformId)) {
+        const token = localStorage.getItem('token');
+        if (token && !this.authService.jwtHelper.isTokenExpired(token)) {
+          this.authService.setToken(token);
+          this.authService.isLoggedInSubject.next(true);
+        }
     }
   }
 
   ngOnInit() {
-    this.appInitStatus.donePromise.then(() => {
-      if (!this.authService.isLoggedIn()) {
-        this.router.navigate(['/login']);
-        this.preloaderService.setLoading(false);
-        this.showPreloader=false;
 
-      } else {
+    this.showPreloader = true;
+    this.preloaderService.setLoading(true);
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('token');
+      if (token && !this.authService.jwtHelper.isTokenExpired(token)) {
+        this.authService.setToken(token);
+        this.authService.isLoggedInSubject.next(true);
         this.router.navigate(['/dashboard']);
-        this.preloaderService.setLoading(true);
-        this.showPreloader=true;
+      } else {
+        this.router.navigate(['/login']);
       }
-  });
+    }
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.preloaderService.setLoading(false);
+        this.showPreloader = false;
+      }
+    });
   this.themeprovider.isDarkMode$.subscribe(isDarkMode => {
     const appRootElement = this.document.querySelector('app-root');
     if (isDarkMode) {
-      this.renderer.addClass(appRootElement, 'dark:bg-haiti-950');
+      this.renderer.addClass(appRootElement, 'dark:bg-gray-900');
       this.renderer.addClass(this.document.documentElement, 'dark');
-      this.renderer.addClass(this.document.body, 'dark:bg-haiti-950');
+      this.renderer.addClass(this.document.body, 'dark:bg-gray-900');
     } else {
-      this.renderer.removeClass(appRootElement, 'dark:bg-haiti-950');
+      this.renderer.removeClass(appRootElement, 'dark:bg-gray-900');
       this.renderer.removeClass(this.document.documentElement, 'dark');
-      this.renderer.removeClass(this.document.body, 'dark:bg-haiti-950');
+      this.renderer.removeClass(this.document.body, 'dark:bg-gray-900');
     }
   });
 

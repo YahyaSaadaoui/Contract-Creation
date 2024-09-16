@@ -12,6 +12,7 @@ module.exports = {
       satoshi: ['Poppins', 'sans-serif'],
     },
     screens: {
+      'xs': '500px',
       '2xsm': '375px',
       xsm: '425px',
       '3xl': '2000px',
@@ -55,6 +56,26 @@ module.exports = {
           '800': '#362fa4',
           '900': '#302e81',
           '950': '#17153b',
+        },
+        'gray': { // Use a darker gray palette for the background
+          50: '#FAFAFA',
+          100: '#F4F4F5',
+          200: '#E4E4E7',
+          300: '#D4D4D8',
+          400: '#A1A1AA',
+          500: '#71717A',
+          600: '#52525B',
+          700: '#3F3F46',
+          800: '#27272A',
+          900: '#1f1f1f', // Near-black background
+        },
+        'primary': { // Define your primary color (blue in Tailwind docs)
+          DEFAULT: '#3B82F6',  // A lighter blue for better contrast in dark mode
+          dark: '#3B82F6',
+        },
+        'secondary': { // Define your secondary color (purple in Tailwind docs)
+          DEFAULT: '#A855F7',
+          dark: '#C084FC',
         },
       },
       fontSize: {
@@ -296,6 +317,6 @@ module.exports = {
     },
   },
   plugins: [
-
+    require('@tailwindcss/typography'),
   ],
 }

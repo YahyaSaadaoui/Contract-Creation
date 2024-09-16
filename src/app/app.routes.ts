@@ -6,6 +6,14 @@ import { RegisterComponent } from './authentication/register/register.component'
 import { AuthGuard } from './authentication/auth.guard.service';
 import { RoleGuard } from './authentication/auth.role-guard.service';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MerchantListComponent} from "./admin/merchant-management/merchant-list/merchant-list.component";
+import {OnboardingMerchantComponent} from "./admin/merchant-management/onboarding-merchant/onboarding-merchant.component";
+import {ModifyMerchantComponent} from "./admin/merchant-management/modify-merchant/modify-merchant.component";
+import {ContractListComponent} from "./admin/contract-creation/contract-list/contract-list.component";
+import {AddContractComponent} from "./admin/contract-creation/add-contract/add-contract.component";
+import {ModifyContractComponent} from "./admin/contract-creation/modify-contract/modify-contract.component";
+import {AuthResolverService} from "./authentication/AuthResolverService";
+import {UserManagementComponent} from "./admin/user-management/user-management.component";
 
 const routes: Routes = [
   {
@@ -26,10 +34,20 @@ const routes: Routes = [
     data: { authRequired: false }
   },
   {
-    path: 'dashboard', // Dashboard is now a top-level route
+    path: 'dashboard',
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-    canActivate: [AuthGuard]
-  }
+    canActivate: [AuthGuard],
+    resolve: { auth: AuthResolverService }
+  },
+  { path: 'merchants', component: MerchantListComponent },
+  { path: 'onboarding-merchant', component: OnboardingMerchantComponent },
+  { path: 'modify-merchant/:id', component: ModifyMerchantComponent },
+  { path: '', redirectTo: '/merchants', pathMatch: 'full' },
+  { path: 'contract-list', component: ContractListComponent },
+  { path: 'add-contract', component: AddContractComponent },
+  { path: 'modify-contract/:id', component: ModifyContractComponent },
+  { path: '', redirectTo: '/contracts', pathMatch: 'full' },
+  { path: 'user-management', component: UserManagementComponent }
 ];
 
 @NgModule({

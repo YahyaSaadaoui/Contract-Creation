@@ -1,9 +1,9 @@
 export interface ContractDTO {
-  merchantId: number;
-  contractId?: number; // Optional for new contracts
+  contractID: number;
+  merchantNumber: string;
   merchantDDA: string;
-  contractStarts: Date;
-  contractEnds: Date;
+  contractStarts?: Date;
+  contractEnds?: Date;
   settlementOption: string;
   feeStructure: string;
 }

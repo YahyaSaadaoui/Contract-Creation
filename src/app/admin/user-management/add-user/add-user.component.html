@@ -1,1 +1,53 @@
-<p>add-user works!</p>
+<div class="h-full relative mb-12 mt-4 w-screen min-w-[40%] max-w-screen rounded-lg bg-white place-self-center leading-relaxed text-blue-gray-500 align-middle dark:bg-gray-900">
+  <div class="flex justify-center p-4 text-2xl font-semibold leading-snug shrink-0 text-haiti-950 dark:text-haiti-100 ease-in-out duration-300">
+    Add New User
+  </div>
+
+  <div class="relative p-4 leading-relaxed border-t border-t-blue-gray-100 dark:border-t-haiti-200">
+    <form (ngSubmit)="addUser()">
+      <!-- Navigation Buttons -->
+      <div class="flex flex-wrap items-center justify-end shrink-0 text-blue-gray-500 mt-2">
+        <button
+          (click)="closeAddModal()"
+          class="px-6 py-3 mr-1 font-sans text-xs font-bold text-red-500 uppercase transition-all rounded-lg middle none center hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+          Cancel
+        </button>
+        <!-- Save Button -->
+        <button
+          type="submit"
+          class="middle none center py-3 px-6 font-sans text-xs font-bold uppercase shadow-md shadow-blue-zodiac-900-500/40 transition-all hover:shadow-lg dark:hover:shadow-haiti-500-500/40 hover:shadow-blue-zodiac-900-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none rounded-lg bg-gradient-to-tl from-blue-zodiac-900 to-haiti-600 text-blue-50">
+          Add User
+        </button>
+      </div>
+      <!-- User Info -->
+      <div class="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-900 rounded-lg h-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="form-group">
+            <label for="name" class="block text-sm font-semibold dark:text-haiti-400 text-black">Name</label>
+            <input type="text" id="name" [(ngModel)]="newUser.name" name="name" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="block text-sm font-semibold dark:text-haiti-400 text-black">Email</label>
+            <input type="email" id="email" [(ngModel)]="newUser.email" name="email" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group">
+            <label for="image" class="block text-sm font-semibold dark:text-haiti-400 text-black">Image</label>
+            <input type="file" id="image" (change)="onFileChange($event)" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group">
+            <label for="role" class="block text-sm font-semibold dark:text-haiti-400 text-black">Role</label>
+            <input type="text" id="role" [(ngModel)]="newUser.role" name="role" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group">
+            <label for="status" class="block text-sm font-semibold dark:text-haiti-400 text-black">Status</label>
+            <input type="text" id="status" [(ngModel)]="newUser.status" name="status" required class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

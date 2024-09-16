@@ -2,6 +2,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "pdfmake/build/pdfmake": ["./src/types/pdfmake.d.ts"],
+      "pdfmake/build/vfs_fonts": ["./src/types/pdfmake.d.ts"]
+    },
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,

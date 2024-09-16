@@ -1,0 +1,203 @@
+<div class="h-full relative mb-12 mt-4 w-full min-w-fit max-w-screen rounded-lg bg-white place-self-center leading-relaxed text-blue-gray-500  align-middle dark:bg-gray-900">
+  <div class="flex justify-center text-2xl font-semibold leading-snug shrink-0 text-haiti-950 dark:text-haiti-100 ease-in-out duration-300">
+    OnBoarding Merchant
+  </div>
+
+  <div class="relative leading-relaxed border-t border-t-blue-gray-100 dark:border-t-haiti-200 h-full">
+    <form (ngSubmit)="saveMerchant()">
+      <div class="flex flex-wrap items-center justify-end  shrink-0 text-blue-gray-500 mt-2 mr-4">
+        <button
+          (click)="closeAddModal()"
+          class="px-6 py-3 mr-1 font-sans text-xs font-bold text-red-500 uppercase transition-all rounded-lg middle none center hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+          Abort
+        </button>
+        <!-- Save Button -->
+        <button
+          type="button"
+          (click)="saveMerchant()"
+          class="middle none center py-3 px-6 font-sans text-xs font-bold uppercase shadow-md shadow-blue-zodiac-900-500/40 transition-all hover:shadow-lg dark:hover:shadow-haiti-500-500/40 hover:shadow-blue-zodiac-900-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none rounded-lg bg-gradient-to-tl from-blue-zodiac-900 to-haiti-600 text-blue-50">
+          Save
+        </button>
+
+      </div>
+
+      <div  class="max-w-4xl mx-auto bg-white dark:bg-gray-900 rounded-lg h-full">
+        <div class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-6">
+          <div class="form-group flex items-center space-x-4">
+            <label for="merchantNumber" class="text-sm font-semibold dark:text-haiti-400 text-black w-full">Merchant Number</label>
+            <input type="text" id="merchantNumber" [(ngModel)]="merchant.merchantNumber" name="merchantNumber" required
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group flex items-center space-x-4">
+            <label for="merchantName" class="text-sm font-semibold dark:text-haiti-400 text-black w-full">Merchant Name</label>
+            <input type="text" id="merchantName" [(ngModel)]="merchant.merchantName" name="merchantName" required
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group flex items-center space-x-4">
+            <label for="status" class="text-sm font-semibold dark:text-haiti-400 text-black w-full">Status</label>
+            <input type="text" id="status" [(ngModel)]="merchant.status" name="status" required
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group flex items-center space-x-4">
+            <label for="taxRate" class="text-sm font-semibold dark:text-haiti-400 text-black w-full">Tax Rate</label>
+            <input type="number" id="taxRate" [(ngModel)]="merchant.taxRate" name="taxRate" required
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group flex items-center space-x-4">
+            <label for="accountBalance" class="text-sm font-semibold dark:text-haiti-400 text-black w-full">Account Balance</label>
+            <input type="number" id="accountBalance" [(ngModel)]="merchant.accountBalance" name="accountBalance" required
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group flex items-center space-x-4">
+            <label for="bankAccountDetails" class="text-sm font-semibold dark:text-haiti-400 text-black w-full">Bank Account</label>
+            <input type="text" id="bankAccountDetails" [(ngModel)]="merchant.bankAccountDetails" name="bankAccountDetails" required
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+          </div>
+
+          <div class="form-group flex items-center space-x-4">
+            <label for="contractStatus" class="text-sm font-semibold dark:text-haiti-400 text-black w-full">Contract Status</label>
+            <input type="text" id="contractStatus" [(ngModel)]="merchant.contractStatus" name="contractStatus" required
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+          </div>
+
+          <div class="form-group flex items-center space-x-4">
+            <label for="created_by" class="text-sm font-semibold dark:text-haiti-400 text-black w-full">Created By</label>
+            <input type="text" id="created_by" [(ngModel)]="merchant.created_by" name="created_by"
+                   defaultValue="{{username}}" placeholder="{{username}}" required
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+
+          <div class="form-group  flex items-center space-x-4">
+            <label for="feeStructure" class="text-sm font-semibold dark:text-haiti-400 text-black w-full">Fee Structure</label>
+            <input type="text" id="feeStructure" [(ngModel)]="merchant.feeStructure" name="feeStructure" required
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+          </div>
+
+          <div class="form-group flex items-center space-x-4">
+            <label for="settlementOption" class="text-sm font-semibold dark:text-haiti-400 text-black w-full">Settlement Option</label>
+            <input type="text" id="settlementOption" [(ngModel)]="merchant.settlementOption" name="settlementOption" required
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+        </div>
+        <div class="form-group mb-4">
+          <button type="button" (click)="addAddress()" class="mt-4 mb-4 flex items-center gap-2 hover:text-blue-zodiac-800 text-haiti-950 dark:text-haiti-100 font-bold">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            Add Address
+          </button>
+          <div *ngFor="let address of merchant.addresses; let i = index" class="grid grid-cols-3 gap-4 mb-4 items-start">
+            <!-- Label -->
+            <label class="block text-sm font-semibold dark:text-haiti-400 text-black col-span-3">Address {{i+1}}</label>
+
+            <!-- Input fields -->
+            <input [(ngModel)]="merchant.addresses[i].street" name="street-{{i}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Street" />
+
+            <input [(ngModel)]="merchant.addresses[i].city" name="city-{{i}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="City" />
+
+            <input [(ngModel)]="merchant.addresses[i].state" name="state-{{i}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="State" />
+
+            <input [(ngModel)]="merchant.addresses[i].country" name="country-{{i}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Country" />
+
+            <input [(ngModel)]="merchant.addresses[i].zipCode" name="zipCode-{{i}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="ZIP Code" />
+
+            <input [(ngModel)]="merchant.addresses[i].email" name="email-{{i}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" />
+
+            <input [(ngModel)]="merchant.addresses[i].phoneNumber" name="phoneNumber-{{i}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Phone Number" />
+
+            <div class="flex items-center col-span-3">
+              <input type="checkbox" [(ngModel)]="address.isPrimary" name="isPrimary-{{ i }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+              <label for="isPrimary-{{ i }}" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Primary Address</label>
+            </div>
+            <div *ngIf="isVisible" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+              <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+              <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                  <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                      <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                          <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                          </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                          <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">{{ title }}</h3>
+                          <div class="mt-2">
+                            <p class="text-sm text-gray-500">{{ message }}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                      <button type="button" (click)="removeAddress(i)" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">Confirm</button>
+                      <button type="button" (click)="cancel()" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="button" (click)="showConfirmationModalAddresses()" class="px-1 py-1.5 text-xs font-medium focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:text-haiti-400 dark:focus:ring-blue-800 self-end items-center col-span-3">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 dark:text-haiti-400 text-blue-zodiac-700">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+        </div>
+        <div class="form-group mb-4">
+          <label class="block text-sm font-semibold dark:text-haiti-400 text-black">Activities</label>
+          <div *ngFor="let activity of merchant.activities; let i = index" class="flex items-center mb-2">
+            <input [(ngModel)]="merchant.activities[i].activityName" name="activity-{{i}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            <button type="button" (click)="showConfirmationModalActivity()" class="px-1 py-1.5 text-xs font-medium focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:text-haiti-400 dark:focus:ring-blue-800 self-end items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 dark:text-haiti-400 text-blue-zodiac-700">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <div *ngIf="isVisible" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+              <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+              <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                  <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                      <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                          <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                          </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                          <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">{{ title }}</h3>
+                          <div class="mt-2">
+                            <p class="text-sm text-gray-500">{{ message }}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                      <button type="button" (click)="removeActivity(i)" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">Confirm</button>
+                      <button type="button" (click)="cancel()" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" (click)="addActivity()" class="flex items-center gap-2 hover:text-blue-zodiac-800 text-haiti-950 dark:text-haiti-100 font-bold mt-4 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            Add Activities
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

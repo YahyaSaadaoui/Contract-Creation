@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MerchantManagementComponent } from './merchant-management/merchant-management.component';
 import { MerchantListComponent } from './merchant-management/merchant-list/merchant-list.component';
-import { AddMerchantComponent } from './merchant-management/add-merchant/add-merchant.component';
+import { OnboardingMerchantComponent } from './merchant-management/onboarding-merchant/onboarding-merchant.component';
 import { ModifyMerchantComponent } from './merchant-management/modify-merchant/modify-merchant.component';
 import { ContractCreationComponent } from './contract-creation/contract-creation.component';
 import { ContractListComponent } from './contract-creation/contract-list/contract-list.component';
@@ -19,16 +19,13 @@ import { ModifyUserComponent } from './user-management/modify-user/modify-user.c
 import { SettingsComponent } from './settings/settings.component';
 import { BusinessSettingsComponent } from './settings/business-settings/business-settings.component';
 import { MyAccountComponent } from './settings/my-account/my-account.component';
-import { CurrenciesManagementComponent } from './settings/currencies-management/currencies-management.component';
-import { CurrencyListComponent } from './settings/currencies-management/currency-list/currency-list.component';
-import { AddCurrencyComponent } from './settings/currencies-management/add-currency/add-currency.component';
-import { ModifyCurrencyComponent } from './settings/currencies-management/modify-currency/modify-currency.component';
-import { FeesManagementComponent } from './settings/fees-management/fees-management.component';
-import { FeeListComponent } from './settings/fees-management/fee-list/fee-list.component';
-import { AddFeeComponent } from './settings/fees-management/add-fee/add-fee.component';
-import { ModifyFeeComponent } from './settings/fees-management/modify-fee/modify-fee.component';
 import { AuthGuard } from '../authentication/auth.guard.service';
 import { RoleGuard } from '../authentication/auth.role-guard.service';
+import {CdfTypesComponent} from "./settings/business-settings/cdf-types/cdf-types.component";
+import {SettlementTypesComponent} from "./settings/business-settings/settlement-types/settlement-types.component";
+import {FeesTypesComponent} from "./settings/business-settings/fees-types/fees-types.component";
+import {CurrenciesComponent} from "./settings/business-settings/currencies/currencies.component";
+import {FeesPercentagesComponent} from "./settings/business-settings/fees-percentages/fees-percentages.component";
 
 const routes: Routes = [
   {
@@ -42,45 +39,22 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { roles: ['ROLE_admin', 'ROLE_adminSystem', 'ROLE_casual', 'ROLE_special'] },
     children: [
-      { path: '',
-        redirectTo: 'list',
-        pathMatch: 'full'
-
-      },
-      { path: 'list',
-        component: MerchantListComponent
-        ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem', 'ROLE_casual', 'ROLE_special'] }
-        ,canActivate: [AuthGuard, RoleGuard]
-      }
-      ,
-      { path: 'add',
-        component: AddMerchantComponent
-        ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem'] }
-        ,canActivate: [AuthGuard, RoleGuard]
-      },
-      { path: 'modify/:id',
-        component: ModifyMerchantComponent
-        ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem'] }
-        ,canActivate: [AuthGuard, RoleGuard]
-      }
+      { path: '', redirectTo: 'list', pathMatch: 'full' },
+      { path: 'list', component: MerchantListComponent },
+      { path: 'add', component: OnboardingMerchantComponent },
+      { path: 'modify/:id', component: ModifyMerchantComponent }
     ]
   },
   {
     path: 'contract-creation',
     component: ContractCreationComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: { roles: ['ROLE_admin', 'ROLE_adminSystem', 'ROLE_casual'] },
+    data: { roles: ['ROLE_admin', 'ROLE_adminSystem', 'ROLE_casual', 'ROLE_special'] },
     children: [
-      { path: '',
-        redirectTo: 'list',
-        pathMatch: 'full'
-
-      },
+      { path: '', redirectTo: 'list', pathMatch: 'full' },
       { path: 'list', component: ContractListComponent },
-      { path: 'add', component: AddContractComponent ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem'] }
-        ,canActivate: [AuthGuard, RoleGuard]},
-      { path: 'modify/:id', component: ModifyContractComponent ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem'] }
-        ,canActivate: [AuthGuard, RoleGuard]}
+      { path: 'add', component: AddContractComponent },
+      { path: 'modify/:id', component: ModifyContractComponent }
     ]
   },
   {
@@ -98,68 +72,38 @@ const routes: Routes = [
     path: 'user-management',
     component: UserManagementComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: { roles: ['ROLE_adminSystem'] },
+    data: { roles: ['ROLE_adminSystem', 'ROLE_admin'] },
     children: [
-      { path: '',
-        redirectTo: 'list',
-        pathMatch: 'full' },
-      { path: 'list',
-        component: UserListComponent },
-      { path: 'add',
-        component: AddUserComponent },
-      { path: 'modify/:id',
-        component: ModifyUserComponent }
+      { path: '', redirectTo: 'list', pathMatch: 'full' },
+      { path: 'list', component: UserListComponent },
+      { path: 'add', component: AddUserComponent },
+      { path: 'modify/:id', component: ModifyUserComponent }
     ]
   },
   {
     path: 'settings',
-    component: SettingsComponent
-    ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem', 'ROLE_casual', 'ROLE_special'] }
-    ,canActivate: [AuthGuard, RoleGuard],
+    component: SettingsComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['ROLE_admin', 'ROLE_adminSystem', 'ROLE_casual', 'ROLE_special'] },
     children: [
-      { path: '',
-        redirectTo: 'business-settings',
-        pathMatch: 'full' },
-      { path: 'business-settings',
-        component: BusinessSettingsComponent },
-      { path: 'my-account',
-        component: MyAccountComponent },
+      { path: '', redirectTo: 'business-settings', pathMatch: 'full' },
       {
-        path: 'currencies-management',
-        component: CurrenciesManagementComponent
-      ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem'] }
-,canActivate: [AuthGuard, RoleGuard],
+        path: 'business-settings',
+        component: BusinessSettingsComponent,
         children: [
-          { path: '', redirectTo: 'list',
-            pathMatch: 'full' },
-          { path: 'list',
-            component: CurrencyListComponent },
-          { path: 'add',
-            component: AddCurrencyComponent },
-          { path: 'modify/:id',
-            component: ModifyCurrencyComponent }
+          { path: '', redirectTo: 'fees-percentages', pathMatch: 'full' },
+          { path: 'fees-percentages', component: FeesPercentagesComponent },
+          { path: 'currencies', component: CurrenciesComponent },
+          { path: 'fees-types', component: FeesTypesComponent },
+          { path: 'settlement-types', component: SettlementTypesComponent },
+          { path: 'cdf-types', component: CdfTypesComponent }
         ]
       },
-      {
-        path: 'fees-management',
-        component: FeesManagementComponent,
-        children: [
-          { path: '',
-            redirectTo: 'list',
-            pathMatch: 'full' },
-          { path: 'list',
-            component: FeeListComponent },
-          { path: 'add',
-            component: AddFeeComponent },
-          { path: 'modify/:id',
-            component: ModifyFeeComponent }
-        ]
-        ,data: { roles: ['ROLE_admin', 'ROLE_adminSystem'] }
-        ,canActivate: [AuthGuard, RoleGuard],
-      }
+      { path: 'my-account', component: MyAccountComponent }
     ]
   }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes),DashboardComponent],
